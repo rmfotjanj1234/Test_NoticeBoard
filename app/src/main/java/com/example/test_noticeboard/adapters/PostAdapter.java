@@ -1,5 +1,11 @@
 package com.example.test_noticeboard.adapters;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test_noticeboard.Post;
 import com.example.test_noticeboard.R;
+import com.example.test_noticeboard.activity.ViewPostActivity;
 import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
@@ -19,11 +26,12 @@ import java.util.Date;
 
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+    Context mContext;
     ArrayList<Post> list;
-    private OnItemClickListener mListener = null;
 
 
-    public PostAdapter(ArrayList<Post> list){
+    public PostAdapter(Context mContext, ArrayList<Post> list){
+        this.mContext = mContext;
         this.list = list;
     }
 
@@ -32,13 +40,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
         PostViewHolder postViewHolder = new PostViewHolder(view);
-
         return postViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         holder.onBind(list.get(position));
+
+        final int posi=holder.getAdapterPosition();
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(posi!= RecyclerView.NO_POSITION){
+                    Intent intent=new Intent(v.getContext(), ViewPostActivity.class);
+                    intent.putExtra("post", list.get(posi));
+                    mContext.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+                }
+            }
+        });
     }
 
     @Override
@@ -56,37 +76,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             timeTV = itemView.findViewById(R.id.timeTV);
             clickTV = itemView.findViewById(R.id.clickTV);
             likeTV = itemView.findViewById(R.id.likeTV);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition() ;
-                    if (pos != RecyclerView.NO_POSITION) {
-                        if(mListener != null){
-                            mListener.onItemClick(v, pos);
-                        }
-                    }
-                }
-            });
         }
 
         void onBind(Post post) {
             titleTV.setText(post.getTitle());
             writerTV.setText(post.getWriter_nickname());
-            long timestamp = Long.parseLong(String.valueOf(post.getTimestamp().getSeconds()));
+            long timestamp = post.getTimestamp();
             Date date = new Date(timestamp * 1000);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             timeTV.setText(simpleDateFormat.format(date));
             clickTV.setText("조회수 " + Integer.toString(post.getClcik()));
             likeTV.setText("좋아요 " + Integer.toString(post.getLike()));
         }
-    }
-
-    public interface OnItemClickListener{
-        void onItemClick(View v, int pos);
-    }
-
-    public void setOnItemListener(OnItemClickListener listener){
-        this.mListener = listener;
     }
 }

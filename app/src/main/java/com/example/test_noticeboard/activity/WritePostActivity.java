@@ -60,13 +60,15 @@ public class WritePostActivity extends AppCompatActivity {
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             User user = documentSnapshot.toObject(User.class);
                             Date date = new Date(System.currentTimeMillis());
-                            Timestamp timestamp = new Timestamp(date);
+                            Timestamp ts = new Timestamp(date);
+                            long timestamp = Long.parseLong(String.valueOf(ts.getSeconds()));
 
                             Log.e("###", "WritePost nickname : " + user.getNickname());
 
-                            Post post = new Post(mAuth.getUid(), title, contents, user.getNickname(), 0, 0, timestamp, null);
+                            String postID = db.collection("Post").document().getId();
+                            Post post = new Post(postID, mAuth.getUid(), title, contents, user.getNickname(), 0, 0, timestamp, null);
 
-                            db.collection("posts").document(db.collection("Post").document().getId()).set(post);
+                            db.collection("posts").document(postID).set(post);
 
                             showToast(WritePostActivity.this, "게시글 작성 완료");
                             myStartActivity(MainActivity.class);

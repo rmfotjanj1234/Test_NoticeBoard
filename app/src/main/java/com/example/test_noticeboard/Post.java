@@ -2,30 +2,34 @@ package com.example.test_noticeboard;
 
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Post implements Comparable<Post> {
+public class Post implements Serializable {
+    private String postID;
     private String writer;
     private String title;
     private String contents;
     private String writer_nickname;
     private int like;
     private int clcik;
-    private Timestamp timestamp;
+    private long timestamp;
     private ArrayList<Comment> comments;
 
     public Post() {
+        this.postID ="";
         this.writer = "";
         this.title = "";
         this.contents = "";
         this.writer_nickname = "";
         this.like = 0;
         this.clcik = 0;
-        this.timestamp = null;
+        this.timestamp = 0;
         this.comments =null ;
     }
 
-    public Post(String writer, String title, String contents, String writer_nickname, int like, int clcik, Timestamp timestamp, ArrayList<Comment> comments) {
+    public Post(String postID, String writer, String title, String contents, String writer_nickname, int like, int clcik, long timestamp, ArrayList<Comment> comments) {
+        this.postID = postID;
         this.writer = writer;
         this.title = title;
         this.contents = contents;
@@ -34,6 +38,14 @@ public class Post implements Comparable<Post> {
         this.clcik = clcik;
         this.timestamp = timestamp;
         this.comments = comments;
+    }
+
+    public String getPostID() {
+        return postID;
+    }
+
+    public void setPostID(String postID) {
+        this.postID = postID;
     }
 
     public String getWriter() {
@@ -84,11 +96,11 @@ public class Post implements Comparable<Post> {
         this.clcik = clcik;
     }
 
-    public Timestamp getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -98,10 +110,5 @@ public class Post implements Comparable<Post> {
 
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
-    }
-
-    @Override
-    public int compareTo(Post o) {
-        return o.getLike() - getLike();
     }
 }

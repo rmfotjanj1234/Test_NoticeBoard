@@ -30,6 +30,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -111,27 +112,33 @@ public class MainActivity extends AppCompatActivity {
     };
 
     /* 최신순 정렬 */
+    Comparator<Post> timeComparator = new Comparator<Post>() {
+        @Override
+        public int compare(Post a, Post b) {
+            return (int) (b.getTimestamp() - a.getTimestamp());
+        }
+    };
     public void timeSort() {
-        mDatas = new ArrayList<>();//
+        mDatas = new ArrayList<>();
         db.collection("posts")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .addSnapshotListener(
-                        new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                if (queryDocumentSnapshots != null) {
-                                    mDatas.clear();
-                                    for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
-                                        Post post = snap.toObject(Post.class);
-                                        mDatas.add(post);
-                                    }
-                                } else {
-                                }
-                                postAdapter = new PostAdapter(mDatas);
-                                postRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                postRV.setAdapter(postAdapter);
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            mDatas.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Post post = document.toObject(Post.class);
+                                mDatas.add(post);
                             }
-                        });
+                        } else {
+                        }
+                        Collections.sort(mDatas, timeComparator);
+                        postAdapter = new PostAdapter(getApplicationContext(), mDatas);
+                        postRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        postRV.setAdapter(postAdapter);
+                    }
+                });
     }
 
     /* 좋아요순 정렬 */
@@ -142,27 +149,26 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     public void likeSort() {
-        mDatas = new ArrayList<>();//
+        mDatas = new ArrayList<>();
         db.collection("posts")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .addSnapshotListener(
-                        new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                if (queryDocumentSnapshots != null) {
-                                    mDatas.clear();
-                                    for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
-                                        Post post = snap.toObject(Post.class);
-                                        mDatas.add(post);
-                                    }
-                                } else {
-                                }
-                                Collections.sort(mDatas, likeComparator);
-                                postAdapter = new PostAdapter(mDatas);
-                                postRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                postRV.setAdapter(postAdapter);
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            mDatas.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Post post = document.toObject(Post.class);
+                                mDatas.add(post);
                             }
-                        });
+                        } else {
+                        }
+                        Collections.sort(mDatas, likeComparator);
+                        postAdapter = new PostAdapter(getApplicationContext(), mDatas);
+                        postRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        postRV.setAdapter(postAdapter);
+                    }
+                });
     }
 
     /* 조회수순 정렬 */
@@ -173,27 +179,26 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     public void clickSort() {
-        mDatas = new ArrayList<>();//
+        mDatas = new ArrayList<>();
         db.collection("posts")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .addSnapshotListener(
-                        new EventListener<QuerySnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                                if (queryDocumentSnapshots != null) {
-                                    mDatas.clear();
-                                    for (DocumentSnapshot snap : queryDocumentSnapshots.getDocuments()) {
-                                        Post post = snap.toObject(Post.class);
-                                        mDatas.add(post);
-                                    }
-                                } else {
-                                }
-                                Collections.sort(mDatas, clickComparator);
-                                postAdapter = new PostAdapter(mDatas);
-                                postRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                                postRV.setAdapter(postAdapter);
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            mDatas.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Post post = document.toObject(Post.class);
+                                mDatas.add(post);
                             }
-                        });
+                        } else {
+                        }
+                        Collections.sort(mDatas, clickComparator);
+                        postAdapter = new PostAdapter(getApplicationContext(), mDatas);
+                        postRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                        postRV.setAdapter(postAdapter);
+                    }
+                });
     }
 
     /* 로그인 상태에 따라 회원가입, 로그인, 회원정보 등록 연결 */

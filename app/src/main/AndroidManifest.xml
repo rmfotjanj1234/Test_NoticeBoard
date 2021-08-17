@@ -23,6 +23,7 @@
         <activity android:name=".activity.PasswordResetActivity"></activity>
         <activity android:name=".activity.MemberInitActivity"></activity>
         <activity android:name=".activity.WritePostActivity"></activity>
+        <activity android:name=".activity.ViewPostActivity"></activity>
     </application>
 
 </manifest>

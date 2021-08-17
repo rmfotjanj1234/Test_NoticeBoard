@@ -2,9 +2,10 @@ package com.example.test_noticeboard;
 
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Comment {
+public class Comment implements Serializable {
     private String c_writer;
     private String c_contents;
     private String c_writer_nickname;
