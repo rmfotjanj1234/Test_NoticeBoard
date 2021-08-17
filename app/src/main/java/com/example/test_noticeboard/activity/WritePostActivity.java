@@ -3,6 +3,7 @@ package com.example.test_noticeboard.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,7 +62,9 @@ public class WritePostActivity extends AppCompatActivity {
                             Date date = new Date(System.currentTimeMillis());
                             Timestamp timestamp = new Timestamp(date);
 
-                            Post post = new Post(mAuth.getUid(), title, contents, user.getNickname(), "0", "0", timestamp, null);
+                            Log.e("###", "WritePost nickname : " + user.getNickname());
+
+                            Post post = new Post(mAuth.getUid(), title, contents, user.getNickname(), 0, 0, timestamp, null);
 
                             db.collection("posts").document(db.collection("Post").document().getId()).set(post);
 

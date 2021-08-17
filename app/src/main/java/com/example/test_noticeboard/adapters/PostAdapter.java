@@ -1,5 +1,6 @@
 package com.example.test_noticeboard.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test_noticeboard.Post;
 import com.example.test_noticeboard.R;
+import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
@@ -69,12 +72,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         void onBind(Post post) {
             titleTV.setText(post.getTitle());
-            writerTV.setText(post.getWriter());
-            SimpleDateFormat sdfCurrent = new SimpleDateFormat ("yyyy-mm-dd hh:mm:ss");
-            String time = sdfCurrent.format(post.getTimestamp());
-            timeTV.setText(time);
-            clickTV.setText(post.getClcik());
-            likeTV.setText(post.getLike());
+            writerTV.setText(post.getWriter_nickname());
+            long timestamp = Long.parseLong(String.valueOf(post.getTimestamp().getSeconds()));
+            Date date = new Date(timestamp * 1000);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            timeTV.setText(simpleDateFormat.format(date));
+            clickTV.setText("조회수 " + Integer.toString(post.getClcik()));
+            likeTV.setText("좋아요 " + Integer.toString(post.getLike()));
         }
     }
 

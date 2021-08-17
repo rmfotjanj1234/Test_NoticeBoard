@@ -9,8 +9,8 @@ public class Post implements Comparable<Post> {
     private String title;
     private String contents;
     private String writer_nickname;
-    private String like;
-    private String clcik;
+    private int like;
+    private int clcik;
     private Timestamp timestamp;
     private ArrayList<Comment> comments;
 
@@ -19,13 +19,13 @@ public class Post implements Comparable<Post> {
         this.title = "";
         this.contents = "";
         this.writer_nickname = "";
-        this.like = "";
-        this.clcik = "";
+        this.like = 0;
+        this.clcik = 0;
         this.timestamp = null;
         this.comments =null ;
     }
 
-    public Post(String writer, String title, String contents, String writer_nickname, String like, String clcik, Timestamp timestamp, ArrayList<Comment> comments) {
+    public Post(String writer, String title, String contents, String writer_nickname, int like, int clcik, Timestamp timestamp, ArrayList<Comment> comments) {
         this.writer = writer;
         this.title = title;
         this.contents = contents;
@@ -68,19 +68,19 @@ public class Post implements Comparable<Post> {
         this.writer_nickname = writer_nickname;
     }
 
-    public String getLike() {
+    public int getLike() {
         return like;
     }
 
-    public void setLike(String like) {
+    public void setLike(int like) {
         this.like = like;
     }
 
-    public String getClcik() {
+    public int getClcik() {
         return clcik;
     }
 
-    public void setClcik(String clcik) {
+    public void setClcik(int clcik) {
         this.clcik = clcik;
     }
 
@@ -102,6 +102,6 @@ public class Post implements Comparable<Post> {
 
     @Override
     public int compareTo(Post o) {
-        return Integer.parseInt(o.getLike()) - Integer.parseInt(getLike());
+        return o.getLike() - getLike();
     }
 }
