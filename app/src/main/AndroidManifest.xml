@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test_NoticeBoard">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".PasswordResetActivity"></activity>
+        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.SignUpActivity"></activity>
+        <activity android:name=".activity.PasswordResetActivity"></activity>
+        <activity android:name=".activity.MemberInitActivity"></activity>
+        <activity android:name=".activity.WritePostActivity"></activity>
     </application>
 
 </manifest>

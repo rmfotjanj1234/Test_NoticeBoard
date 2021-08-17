@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="이메일"
+        android:text="bbbb@bbbb.com"
         android:textSize="20sp"
         android:inputType="textEmailAddress"/>
 
@@ -24,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="비밀번호"
+        android:text="bbbbbb"
         android:textSize="20sp"
         android:inputType="textPassword"/>
 

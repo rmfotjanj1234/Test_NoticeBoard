@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activity.MainActivity">
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MainActivity"
-        android:textSize="40sp"/>
+        android:text="게시글 작성"
+        android:textSize="40sp"
+        android:gravity="center"/>
 
     <Button
-        android:id="@+id/logoutBtn"
+        android:id="@+id/registBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="로그아웃"/>
+        android:text="게시글 등록"/>
 
-    <Button
-        android:id="@+id/writeBtn"
+    <EditText
+        android:id="@+id/titleET"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="게시글 작성"/>
+        android:hint="제목"
+        android:textSize="20sp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/postRV"
+    <EditText
+        android:id="@+id/contentsET"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="내용"
+        android:textSize="20sp"/>
 
 </LinearLayout>
